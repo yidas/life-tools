@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div>
+		<input type="text" id="input" autofocus />
+		<button class="sumbit-btn">Check</button>
+	</div>
+
+
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript">
+
+		var digitsList = [
+			"123",
+			"321",
+			];
+		
+		$(function() {
+
+			var lotteryApp = new LotteryApp({
+				'digitsList': digitsList,
+			});
+			
+			$(".sumbit-btn").click(function() {
+				
+				lotteryApp.check();
+			});
+		});
+
+		function LotteryApp(o) {
+
+			'use strict';
+			
+			var self = this;
+
+			o = o || {};
+
+			self.digitsList = o.digitsList || [];
+
+			self.init = function () {
+				
+				// alert("init");
+			}
+
+			self.check = function () {
+				
+				console.log(self.digitsList);
+			}
+
+			self.init();
+		}
+
+	</script>
+</body>
+</html>
