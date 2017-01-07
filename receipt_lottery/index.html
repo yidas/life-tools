@@ -5,14 +5,30 @@
 </head>
 <body>
 	<div>
-		<input type="text" id="input" autofocus />
+		<input type="text" id="input" maxlength="3" autofocus />
 		<button class="sumbit-btn">Check</button>
+	</div>
+	<div>
+		<p id="status"></p>
+	</div>
+	<div>
+		<p>3-Digits List:</p>
+		<div id="digits-list-block">
+			<!-- <li>123</li> -->
+		</div>
+	</div>
+	<div>
+		<p>Matched List:</p>
+		<div id="matched-list-block">
+			<!-- <li>123</li> -->
+		</div>
 	</div>
 
 
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script type="text/javascript">
 
+		/* 3-Digits Number of Receipt Lottery */
 		var digitsList = [
 			"123",
 			"321",
@@ -23,10 +39,20 @@
 			var lotteryApp = new LotteryApp({
 				'digitsList': digitsList,
 			});
+
+			lotteryApp.renderDigitsListBlock();
 			
 			$(".sumbit-btn").click(function() {
 				
 				lotteryApp.check();
+			});
+
+			$( "#input" ).keypress(function( event ) {
+
+				// alert(event.which);
+
+			  	if ( event.which == 13 ) 
+			  		lotteryApp.check();
 			});
 		});
 
@@ -39,6 +65,10 @@
 			o = o || {};
 
 			self.digitsList = o.digitsList || [];
+			var $input = $("#input");
+			var $digitsListBlock = $("#digits-list-block");
+			var $status = $("#status");
+			var $matchedListBlock = $("#matched-list-block");
 
 			self.init = function () {
 				
@@ -47,7 +77,54 @@
 
 			self.check = function () {
 				
-				console.log(self.digitsList);
+				// console.log(self.digitsList);
+				// alert($input.val());
+
+				var input = $input.val();
+
+				/* Check is numeric */
+				if (isNaN(input)) {
+
+					alert("Please input numeric only");
+					return false;
+				}
+
+				/* Check length */
+				if (input.length != 3) {
+
+					alert("Please input 3 digitals format");
+					return false;
+				}
+
+				/* Match */
+				var result = $.inArray($input.val(), self.digitsList);
+
+				if (result!==-1) {
+
+					alert("Win! "+input);
+
+				} else {
+
+				}
+
+				var datetime = new Date();
+				// console.log(datetime);
+
+				/* Template */
+				$status.html("Match "+input+" at "+datetime);
+
+				var winSting = result!==-1 ? " - Win" : "";
+				$matchedListBlock.prepend("<li>"+input+winSting+"</li>");
+
+				$input.val("");
+			}
+
+			self.renderDigitsListBlock = function () {
+				
+				digitsList.forEach(function (item) {
+
+					$digitsListBlock.append("<li>"+item+"</li>");
+				});
 			}
 
 			self.init();
