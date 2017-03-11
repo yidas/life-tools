@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="UTF-8">
 	<title></title>
 </head>
 <body>
+	<div>
+		<h4 id="invoice-period"></h4>
+	</div>
 	<div>
 		<input type="text" id="input" maxlength="3" autofocus />
 		<button class="sumbit-btn">Check</button>
@@ -28,13 +32,25 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script type="text/javascript">
 
+		/* Invoice Period */
+		var invoicePeriod = "105年11,12月";
+
 		/* 3-Digits Number of Receipt Lottery */
 		var digitsList = [
-			"123",
-			"321",
+			"003",
+			"074",
+			"177",
+			"760",
+			"048",
+			"000",
+			"059",
+			"478",
+			"569"
 			];
 		
 		$(function() {
+
+			$("#invoice-period").html(invoicePeriod);
 
 			var lotteryApp = new LotteryApp({
 				'digitsList': digitsList,
