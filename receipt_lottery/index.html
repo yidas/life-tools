@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<div>
-		<p>Matched List:</p>
+		<p>Matched List: <span class="counter"></span></p>
 		<div id="matched-list-block">
 			<!-- <li>123</li> -->
 		</div>
@@ -85,6 +85,9 @@
 			var $digitsListBlock = $("#digits-list-block");
 			var $status = $("#status");
 			var $matchedListBlock = $("#matched-list-block");
+			var $counter = $(".counter");
+
+			var counter = 0;
 
 			self.init = function () {
 				
@@ -133,6 +136,10 @@
 				$matchedListBlock.prepend("<li>"+input+winSting+"</li>");
 
 				$input.val("");
+
+				/* Counter */
+				counter++;
+				$counter.html(counter);
 			}
 
 			self.renderDigitsListBlock = function () {
