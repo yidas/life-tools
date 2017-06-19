@@ -1,4 +1,4 @@
-Life Tools by Javascript
-========================
+Life Tools
+==========
 
-Collection of dailly use tools based on Javascript.
+Collection of dailly use tools based on WEB or PHP.
