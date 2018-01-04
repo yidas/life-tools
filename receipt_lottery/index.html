@@ -10,13 +10,15 @@
 	</div>
 	<div>
 		<input type="text" id="input" maxlength="3" autofocus />
-		<button class="sumbit-btn">Check</button>
+		<button class="btn-submit">Check</button>
 	</div>
 	<div>
 		<p id="status"></p>
 	</div>
 	<div>
 		<p>3-Digits List:</p>
+		<input type="text" name="digit" maxlength="3" size=5 />
+		<button class="btn-add">Add</button>
 		<div id="digits-list-block">
 			<!-- <li>123</li> -->
 		</div>
@@ -33,42 +35,35 @@
 	<script type="text/javascript">
 
 		/* Invoice Period */
-		var invoicePeriod = "105年11,12月";
-
-		/* 3-Digits Number of Receipt Lottery */
-		var digitsList = [
-			"003",
-			"074",
-			"177",
-			"760",
-			"048",
-			"000",
-			"059",
-			"478",
-			"569"
-			];
+		var invoicePeriod = "Receipt Lottery";
 		
 		$(function() {
 
 			$("#invoice-period").html(invoicePeriod);
 
-			var lotteryApp = new LotteryApp({
-				'digitsList': digitsList,
-			});
-
-			lotteryApp.renderDigitsListBlock();
+			var lotteryApp = new LotteryApp();
 			
-			$(".sumbit-btn").click(function() {
+			$(".btn-submit").click(function() {
 				
 				lotteryApp.check();
 			});
 
-			$( "#input" ).keypress(function( event ) {
+			$(".btn-add").click(function() {
 
-				// alert(event.which);
+				var number = $('input[name="digit"]').val();
+				lotteryApp.addDigits(number);
+			});
+
+			$("#input").keypress(function( event ) {
 
 			  	if ( event.which == 13 ) 
-			  		lotteryApp.check();
+				  $(".btn-submit").click();
+			});
+
+			$('input[name="digit"]').keypress(function( event ) {
+
+			  	if ( event.which == 13 ) 
+				  	$(".btn-add").click();
 			});
 		});
 
@@ -80,7 +75,8 @@
 
 			o = o || {};
 
-			self.digitsList = o.digitsList || [];
+			/* 3-Digits Number of Receipt Lottery */
+			self.digitsList = [];
 			var $input = $("#input");
 			var $digitsListBlock = $("#digits-list-block");
 			var $status = $("#status");
@@ -94,6 +90,17 @@
 				// alert("init");
 			}
 
+			self.addDigits = function (number) {
+
+			 	if (!validate(number)) {
+					return false;
+			 	}	
+
+				self.digitsList.push(number);
+
+				$digitsListBlock.append("<li>"+number+"</li>");
+			}
+
 			self.check = function () {
 				
 				// console.log(self.digitsList);
@@ -101,19 +108,9 @@
 
 				var input = $input.val();
 
-				/* Check is numeric */
-				if (isNaN(input)) {
-
-					alert("Please input numeric only");
+				if (!validate(input)) {
 					return false;
-				}
-
-				/* Check length */
-				if (input.length != 3) {
-
-					alert("Please input 3 digitals format");
-					return false;
-				}
+			 	}
 
 				/* Match */
 				var result = $.inArray($input.val(), self.digitsList);
@@ -148,6 +145,25 @@
 
 					$digitsListBlock.append("<li>"+item+"</li>");
 				});
+			}
+
+			var validate = function(input) {
+
+				/* Check is numeric */
+				if (isNaN(input)) {
+
+					alert("Please input numeric only");
+					return false;
+				}
+
+				/* Check length */
+				if (input.length != 3) {
+
+					alert("Please input 3 digitals format");
+					return false;
+				}
+
+				return true;
 			}
 
 			self.init();
